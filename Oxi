@@ -1,0 +1,1036 @@
+--OXYGEN V2
+local Core = game:GetService("CoreGui")
+
+Core.ChildAdded:Connect(function(name)
+    wait()
+    local o = name.Name
+    if name.Name == "youainthardhomie" then
+        return
+    else
+        name.Name = "youainthardhomie"
+        name.Parent = game.Workspace
+        local ScreenGui = Instance.new("ScreenGui")
+        local Frame = Instance.new("Frame")
+        ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+        ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        Frame.Parent = ScreenGui
+        Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Frame.Position = UDim2.new(-100000, -100000, -100000, 0)
+        Frame.Size = UDim2.new(0, 100, 0, 100)
+        name.Parent = ScreenGui
+        wait(1)
+        name.Name = o
+        game.Players.LocalPlayer.CharacterRemoving:Connect(function()
+            ScreenGui.Parent = game.Workspace
+        end)
+        game.Players.LocalPlayer.CharacterAdded:Connect(function()
+           ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+        end)
+    end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+wait(1)
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+local Window = Library.CreateLib("oxygen BLAP BLAP", "Midnight")
+
+local Tab = Window:NewTab("Main")
+
+local Section = Tab:NewSection("Insane Main Tab")
+
+Section:NewSlider("Walkspeed", "makes your character walk fast", 35, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+Section:NewSlider("Jumppower", "makes your character jump high", 200, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+Section:NewSlider("Field of view", "how wide your vision is", 120, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    workspace.CurrentCamera.FieldOfView = s
+end)
+
+Section:NewButton("Remove arms", "Removes your characters arms", function()
+    game.Players.LocalPlayer.Character['Right Arm']:remove()
+    game.Players.LocalPlayer.Character['Left Arm']:remove()
+end)
+
+Section:NewButton("Remove legs", "Removes your characters legs", function()
+    game.Players.LocalPlayer.Character['Right Leg']:remove()
+    game.Players.LocalPlayer.Character['Left Leg']:remove()
+end)
+
+Section:NewSlider("Gravity", "SliderInfo", 500, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Workspace.Gravity = s
+end)
+
+Section:NewToggle("Satic Deysync", "Makes Your Character Harder to hit", function(static)
+    if static then
+                            for i,v in pairs(game:GetService('Players'):GetChildren()) do
+               AnimationId = "429703734"
+               local Anim = Instance.new("Animation")
+               Anim.AnimationId = "rbxassetid://"..AnimationId
+               local animplay = game:GetService('Players').LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+               animplay:Play()
+               animplay:AdjustSpeed(2)
+            end
+    else
+                            for i,v in pairs(game:GetService('Players'):GetChildren()) do
+               AnimationId = ""
+               local Anim = Instance.new("Animation")
+               Anim.AnimationId = "rbxassetid://"..AnimationId
+               local animplay = game:GetService('Players').LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+               animplay:Play()
+               animplay:AdjustSpeed(2)
+            end
+    end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY
+
+
+
+
+
+
+
+
+
+
+
+local Tab = Window:NewTab("HBE")
+
+local Section = Tab:NewSection("nice hitbox expander")
+
+Section:NewButton("hbe", "ButtonInfo", function()
+    getfenv().hbe = true
+    if getfenv().hbe == true then
+    local mt = getrawmetatable(game);
+    make_writeable(mt);
+    local old_index = mt.__index;
+    
+    mt.__index = function(a, b)
+    if tostring(a) == "HumanoidRootPart" then
+    if tostring(b) == "Size" then
+    return Vector3.new(2, 2, 1);
+    end
+    end
+    return old_index(a, b);
+    end
+    
+    
+    if shared.ShushHighlight then shared.ShushHighlight.stop();end;
+    
+    local Connection = {};
+    Connection.__index = Connection;
+    Connection.__tostring = function(self)
+        return self.Name;
+    end;
+    
+    Connection.new = function(Event, Func, Once)
+        return setmetatable({Name = Event.Name .. ".Connection", Event = Event, Func = Func, Once = Once}, Connection);
+    end;
+    
+    Connection.Disconnect = function(self)
+        table.remove(self.Event._connections, table.find(self.Event._connections, self));
+    end;
+    
+    
+    local Event = {};
+    Event.__index = Event;
+    Event.__tostring = function(self)
+        return self.Name;
+    end;
+    
+    Event.new = function(Name)
+        return setmetatable({Name = Name or "Event", _connections={}, _waits={}}, Event);
+    end;
+    
+    Event.Connect = function(self, Func)
+        local connection = Connection.new(self, Func);
+        table.insert(self._connections, connection);
+        return connection;
+    end;
+    Event.Fire = function(self, ...)
+        local Args = {...};
+        task.spawn(function()
+            for I, Con in next, self._connections do
+                Con.Func(unpack(Args));
+            end;
+        end);
+    end;
+    
+    
+    local Target;
+    
+    local PlayerService = game:GetService("Players");
+    local LP = PlayerService.LocalPlayer;
+    
+    local FFC = game.FindFirstChild;
+    
+    local TargetObject = LP:WaitForChild("PlayerGui").ScreenGui.UI.Target;
+    local TargetText = TargetObject.TargetText;
+    
+    do
+        local T = TargetText.Text;
+        local V = TargetText.Visible;
+        local V2 = TargetObject.Visible;
+    
+        if V and V2 then
+            if T and #T > 1 then
+                Target = FFC(PlayerService, T);
+            end;
+        end;
+    end;
+    
+    local INSTChanged = Event.new("InstChanged");
+    local TARGETChanged = Event.new("TargetChanged");
+    local HITBOXChanged = Event.new("HitboxChanged");
+    local TARGETHITBOXChanged = Event.new("TargetHitboxChanged");
+    
+    local SettingsProxy = {Target = true};
+    
+    local INSTProxy = {
+        FillColor = Color3.new(0, 1, 0),
+        FillTransparency = 0.5,
+    
+        OutlineColor = Color3.new(1, 1, 1),
+        OutlineTransparency = 0;
+    };
+    local TARGETProxy = {
+        FillColor = Color3.new(1, 0, 0),
+        FillTransparency = 0.5,
+    
+        OutlineColor = Color3.new(1, 1, 1),
+        OutlineTransparency = 0;
+    };
+    local HITBOXProxy = {
+        Size = Vector3.new(2,2,1),
+        Transparency = 0
+    };
+    local TARGETHITBOXProxy = {
+        Size = Vector3.new(2,2,1),
+        Transparency = 0
+    };
+    
+    local Settings = setmetatable({}, {__index = SettingsProxy, __newindex = function(self, key, value)
+        if key == "Target" then 
+            for i,v in next, TARGETProxy do
+                TARGETChanged:Fire(i,v);
+            end;
+        end;
+        
+        SettingsProxy[key] = value;
+    end});
+    Settings.INST = setmetatable({}, {__index = INSTProxy, __newindex = function(self, Key, Value)
+        if INSTProxy[Key] then
+            INSTChanged:Fire(Key, Value);
+            INSTProxy[Key] = Value;
+            
+            return;
+        end;
+        
+        return error(tostring(Key), " is not a valid key");
+    end});
+    Settings.TARGET = setmetatable({}, {__index = TARGETProxy, __newindex = function(self, Key, Value)
+        if TARGETProxy[Key] then
+            TARGETChanged:Fire(Key, Value);
+            TARGETProxy[Key] = Value;
+            
+            return;
+        end;
+        
+        return error(tostring(Key), " is not a valid key");
+    end});
+    Settings.HITBOX = setmetatable({}, {__index = HITBOXProxy, __newindex = function(self, Key, Value)
+        if HITBOXProxy[Key] then
+            HITBOXChanged:Fire(Key, Value);
+            HITBOXProxy[Key] = Value;
+            
+            return;
+        end;
+        
+        return error(tostring(Key), " is not a valid key");
+    end});
+    Settings.TARGETHITBOX = setmetatable({}, {__index = TARGETHITBOXProxy, __newindex = function(self, Key, Value)
+        if TARGETHITBOXProxy[Key] then
+            TARGETHITBOXChanged:Fire(Key, Value);
+            TARGETHITBOXProxy[Key] = Value;
+            
+            return;
+        end;
+        
+        return error(tostring(Key), " is not a valid key");
+    end});
+    
+    local Highlight = {
+        Active = true,
+        Connections = {},
+        Settings = Settings
+    };
+    Highlight.__index = Highlight;
+    
+    Highlight.new = function(Character, Player)
+        local cache = {};
+        
+        local Inst = Instance.new("Highlight");
+        Inst.Adornee = Character;
+        Inst.Parent = Character;
+        
+        if Settings.Target and Target and Player == Target then
+            for k,v in next, TARGETProxy do
+                Inst[k] = v;
+                cache[k] = v;
+            end;
+        else
+            for k, v in next, INSTProxy do
+                Inst[k] = v;
+                cache[k] = v;
+            end;
+        end;
+        
+        local SettingsCon; SettingsCon = INSTChanged:Connect(function(k,v)
+            if cache[k] == v then return;end;
+            if Settings.Target and Target and Target and Player == Target then return;end;
+            Inst[k] = v;
+            -- cache[k] = v;
+        end);
+        local TargetCon; TargetCon = TARGETChanged:Connect(function(k,v)
+            if cache[k] == v then return;end;
+            if not (Settings.Target and Target and Player == Target) then return;end;
+            Inst[k] = v;
+            -- cache[k] = v;
+        end);
+        Inst.Changed:Connect(function(P)
+            cache[P] = Inst[P];
+        end);
+    
+        
+        local highlight = setmetatable({
+            Active = true,
+            Inst = Inst,
+            Character = Character,
+            SettingsCon = SettingsCon,
+            TargetCon = TargetCon;
+        }, Highlight);
+        
+        return highlight;
+    end;
+    
+    Highlight.Destroy = function(self)
+        if not self.Active then return;end;
+        self.Active = false;
+        self.SettingsCon:Disconnect();
+        self.TargetCon:Disconnect();
+        self.Inst:Destroy();
+    end;
+    
+    local Extender = {};
+    Extender.__index = Extender;
+    
+    Extender.new = function(Character, Player)
+        local HRP = Character:FindFirstChild("HumanoidRootPart");
+        
+        local HitboxCon = HITBOXChanged:Connect(function(k,v)
+            if not HRP then return;end;
+            if Settings.Target and Target and Target and Player == Target then return;end;
+            HRP[k] = v;
+        end);
+        local TargetHitboxCon = TARGETHITBOXChanged:Connect(function(k,v)
+            if not HRP then return;end;
+            if not (Settings.Target and Target and Target and Player == Target) then return;end;
+            HRP[k] = v;
+        end);
+    
+        local extender = setmetatable({
+            Active = true,
+            HitboxCon = HitboxCon,
+            TargetHitboxCon = TargetHitboxCon,
+            HRP = HRP,
+        }, Extender);
+    
+        task.spawn(function()
+            if not HRP then repeat task.wait();HRP = Character:FindFirstChild("HumanoidRootPart");until HRP;end;
+            extender.HRP = HRP;
+    
+            if Settings.Target and Target and Player == Target then
+                for k,v in next, TARGETHITBOXProxy do
+                    HRP[k] = v;
+                end;
+            else
+                for k, v in next, HITBOXProxy do
+                    HRP[k] = v;
+                end;
+            end;
+        end);
+    
+        return extender;
+    end;
+    Extender.Destroy = function(self)
+        if not self.Active then return;end;
+        self.Active = false;
+        self.HitboxCon:Disconnect();
+        self.TargetHitboxCon:Disconnect();
+    end;
+    
+    local function GetCharacter(Player)
+        return workspace:FindFirstChild(Player.Name);
+    end;
+    
+    local PlayerObject = {};
+    PlayerObject.__index = PlayerObject;
+    
+    PlayerObject.new = function(Player)
+        if typeof(Player) ~= "Instance" or Player == LP then return;end;
+        local playerobject = setmetatable({
+            Active = true,
+            Player = Player,
+            Character = GetCharacter(Player) or Player.CharacterAdded:Wait();
+        }, PlayerObject);
+    
+        task.spawn(function()
+            playerobject.Highlight = Highlight.new(playerobject.Character, Player);
+        end);
+        task.spawn(function()
+            playerobject.Extender = Extender.new(playerobject.Character, Player);
+        end);
+    
+        local con = Player.CharacterAdded:Connect(function(Character)
+            task.spawn(function()
+                if playerobject.Highlight then playerobject.Highlight:Destroy();end;
+                playerobject.Highlight = Highlight.new(Character, Player);
+            end);
+            task.spawn(function()
+                if playerobject.Extender then playerobject.Extender:Destroy();end;
+                playerobject.Extender = Extender.new(Character, Player);
+            end);
+        end);
+        playerobject.CharacterAddedCon = con;
+    
+        PlayerObject[Player] = playerobject;
+    
+        return playerobject;
+    end;
+    
+    PlayerObject.Destroy = function(self)
+        if not self.Active then return;end;
+        
+        self.Active = false;
+        if self.Highlight then self.Highlight:Destroy();end;
+        if self.Extender then self.Extender:Destroy();end;
+        self.CharacterAddedCon:Disconnect();
+        
+    end;
+    
+    Highlight.HandlePlayers = function()
+        for I, Player in next, PlayerService:GetPlayers() do
+            PlayerObject.new(Player);
+        end;
+    
+        table.insert(Highlight.Connections, PlayerService.PlayerAdded:Connect(PlayerObject.new));
+        table.insert(Highlight.Connections, PlayerService.PlayerRemoving:Connect(function(Player)
+            if PlayerObject[Player] then
+                PlayerObject[Player]:Destroy();
+            end;
+        end));
+    end;
+    Highlight.stop = function()
+        if not Highlight.Active then return;end;
+        
+        Highlight.Active = false;
+        for I, V in next, PlayerObject do
+            if typeof(I) == "Instance" then
+                V:Destroy();
+            end;
+        end;
+        
+        for i,v in next, Highlight.Connections do
+            v:Disconnect();
+        end;
+    end;
+    
+    local ReplicatedStorage = game:GetService("ReplicatedStorage");
+    local Remotes = ReplicatedStorage.Remotes;
+    local HideTarget = Remotes.HideTarget;
+    local UpdateTarget = Remotes.UpdateTarget;
+    
+    table.insert(Highlight.Connections, HideTarget.OnClientEvent:Connect(function()
+        Target = nil;
+    
+        for k,v in next, INSTProxy do
+            INSTChanged:Fire(k,v);
+        end;
+    end));
+    table.insert(Highlight.Connections, UpdateTarget.OnClientEvent:Connect(function(T)
+        Target = T;
+    
+        local p = PlayerObject[Target]
+        local h = p and p.Highlight;
+        
+        if h then
+            for k,v in next, TARGETProxy do
+                h.Inst[k] = v;
+            end;
+        end;
+    
+        local e = p and p.Extender;
+        if e then
+            for k,v in next, TARGETHITBOXProxy do
+                e.HRP[k] = v;
+            end;
+        end;
+    end));
+    
+    Highlight.HandlePlayers();
+    shared.ShushHighlight = Highlight;
+    local Settings = shared.ShushHighlight.Settings;
+    
+    Settings.HITBOX.Size = Vector3.new(7,7,7);
+    Settings.HITBOX.Transparency = 0.5;
+    Settings.TARGETHITBOX.Size = Vector3.new(10,10,10);
+    Settings.TARGETHITBOX.Transparency = 0.5;
+    
+    Settings.INST.FillColor = Color3.fromRGB(222, 2, 222);
+    Settings.TARGET.OutlineColor = Color3.fromRGB(111, 11, 111);
+    elseif getfenv().hbe == false then
+        print('disabled hbe')
+    end
+end)
+
+Section:NewColorPicker("Target outline color", "Color Info", Color3.fromRGB(255,255,255), function(s)
+    Settings.TARGET.OutlineColor = s
+    -- Second argument is the default color
+end)
+
+Section:NewColorPicker("hitbox color", "Color Info", Color3.fromRGB(255,255,255), function(s)
+    Settings.INST.FillColor = s
+    -- Second argument is the default color
+end)
+
+Section:NewSlider("Hitbox size", "SliderInfo", 70, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    Settings.HITBOX.Size = s
+end)
+
+Section:NewSlider("target size", "SliderInfo", 70, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    Settings.TARGETHITBOX.Size = s
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY
+
+
+
+
+
+
+
+
+
+
+
+
+
+local Tab = Window:NewTab("Autofarm")
+
+local Section = Tab:NewSection("Insane Autofarms")
+
+
+
+Section:NewButton("fartlek autofarm", "ButtonInfo", function()
+    game:GetService("AdService"):ClearAllChildren()
+    wait(1)
+    
+    local Player = game.Players.LocalPlayer
+    local wS = game.Workspace
+    local cam = wS.CurrentCamera
+    local mouse = Player:GetMouse()
+    local ClosestPlr = function()
+        local Closest = nil
+        local Distance = 9e9;
+        for i,v in pairs(game.Players:GetPlayers()) do
+            if v ~= Player then
+                if wS[v.Name]:FindFirstChild("Humanoid") and wS[v.Name].Humanoid.Health ~= 0 then
+                    local pos = cam:WorldToViewportPoint(wS[v.Name].HumanoidRootPart.Position)
+                    local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(mouse.X, mouse.Y)).magnitude;
+                    if magnitude  0 do
+            repeat wait() until Player.Character:FindFirstChild("Head")
+                if Player:DistanceFromCharacter(ClosestPlayer().Head.Position) <= 6.5 then
+                    Player.PlayerScripts.localknifehandler.HitCheck:Fire(ClosestPlayer())
+                    wait(.7)
+                else
+                    wait()
+                end
+        end
+    end)
+    
+    game:GetService("RunService").Stepped:Connect(function()
+    game.Workspace.Gravity = -2
+    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+        oreoTween(game.Workspace[game.Players.LocalPlayer.PlayerGui.ScreenGui:WaitForChild("UI"):WaitForChild("Target"):WaitForChild("TargetText").Text].HumanoidRootPart,34)
+        for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+            pcall(function()
+                if v.ClassName == "Part" then
+                    v.CanCollide = false
+                elseif v.ClassName == "Model" then
+                    v.Head.CanCollide = false
+                end
+            end)
+        end
+    end)
+    
+    task.spawn(function()
+        game.RunService.Heartbeat:Connect(function()
+            for i,v in pairs(game:GetService('Players'):GetChildren()) do
+       AnimationId = "429703734"
+       local Anim = Instance.new("Animation")
+       Anim.AnimationId = "rbxassetid://"..AnimationId
+       local animplay = game:GetService('Players').LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+       animplay:Play()
+       animplay:AdjustSpeed(2)
+    end
+    end)
+    end)
+
+    task.spawn(function()
+        game:GetService("RunService").Heartbeat:connect(function()
+            local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+        hrp.CFrame = hrp.CFrame * CFrame.Angles(0,math.rad(10),0)
+        wait(0.01)
+game.Players.LocalPlayer.Character['Right Leg']:remove()
+game.Players.LocalPlayer.Character['Left Leg']:remove()
+game.Players.LocalPlayer.Character['Left Arm']:remove()
+        end)
+    end)
+end)
+
+Section:NewButton("ratio autofarm", "ButtonInfo", function()
+    print("Clicked")
+end)
+
+Section:NewButton("oxygen autofarm", "ButtonInfo", function()
+    print("Clicked")
+end)
+
+Section:NewButton("new autofarm", "ButtonInfo", function()
+    print("Clicked")
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY
+
+
+
+
+
+
+
+
+
+
+
+
+
+local Tab = Window:NewTab("Silent Aim")
+
+local Section = Tab:NewSection("F TO TURN ON AND USE BASIC KNIFE")
+
+Section:NewButton("Tp silent aim", "ButtonInfo", function()
+    local Player = game:GetService("Players").LocalPlayer
+    local Camera = game:GetService("Workspace").CurrentCamera
+    local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+    
+    FOV_Circle = Drawing.new("Circle")
+    FOV_Circle.Color = Color3.fromRGB(255,255,255)
+    FOV_Circle.Thickness = 2.5
+    FOV_Circle.NumSides = 300
+    FOV_Circle.Radius = 200
+    FOV_Circle.Visible = false
+    FOV_Circle.Filled = false
+    
+    game:GetService('RunService').Stepped:connect(function()
+        FOV_Circle.Position = Vector2.new(Mouse.X, Mouse.Y + 37)
+    end)
+    
+    local function ClosestPlayerToCursor()
+        local Closest = nil
+        local Distance = 9e9
+        for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+            if v ~= Player then
+                if Workspace[v.Name]:FindFirstChild("Humanoid") and Workspace[v.Name].Humanoid.Health ~= 0 then
+                    local Position = Camera:WorldToViewportPoint(Workspace[v.Name].HumanoidRootPart.Position)
+                    local Magnitude = (Vector2.new(Position.X, Position.Y) - Vector2.new(Mouse.X, Mouse.Y)).Magnitude
+                    if Magnitude < Distance and Magnitude < FOV_Circle.Radius then
+                        Closest = Workspace[v.Name]
+                        Distance = Magnitude
+                    end
+                end
+            end
+        end
+        return Closest
+    end
+    
+    _G.Toggle = false
+    spawn(function()
+        game:GetService('RunService').RenderStepped:connect(function()
+            pcall(function()
+                if _G.Toggle then
+                    for i, v in pairs(game:GetService("Workspace").KnifeHost.PowerUps:GetDescendants()) do
+                        if v:IsA("Part") then
+                            v.Archivable = false
+                        end
+                    end
+                end
+            end)
+        end)
+    end)
+    
+    
+    spawn(function()
+        game:GetService('RunService').RenderStepped:connect(function()
+            pcall(function()
+                if _G.Toggle then
+                    for i, v in pairs(game:GetService("Workspace").KnifeHost:GetDescendants()) do
+                        if v:IsA("Part") then
+                            if v.Archivable == true then
+                                local PlayerPosition = ClosestPlayerToCursor().baseHitbox.CFrame
+                                v.CFrame = PlayerPosition
+                            end
+                        end
+                    end
+                end
+            end)
+        end)
+    end)
+    spawn(function()
+        pcall(function()
+            Mouse.KeyDown:Connect(function(key)
+                if key == "f" and _G.Toggle == false then
+                    _G.Toggle = true
+                    FOV_Circle.Visible = true
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Semen Aim";
+                        Text = "Creaming Enabled";
+                        Duration = 2;
+                    })
+                elseif key == "f" and _G.Toggle == true then
+                    _G.Toggle = false
+                    FOV_Circle.Visible = false
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Semen Aim";
+                        Text = "Creaming Disabled";
+                        Duration = 2;
+                    })
+                end
+            end)
+        end)
+    end)
+end)
+
+
+Section:NewToggle("Fov visible", "ToggleInfo", function(state)
+    if state then
+FOV_Circle.Visible = true
+    else
+FOV_Circle.Visible = false
+    end
+end)
+
+
+Section:NewColorPicker("Fov circle color", "Color Info", Color3.fromRGB(255,255,255), function(color)
+ FOV_Circle.Color = color
+end)
+
+Section:NewSlider("FOV thickness", "SliderInfo", 100, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+FOV_Circle.Thickness = s
+end)
+
+Section:NewSlider("FOV Size", "SliderInfo", 300, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+ FOV_Circle.Radius = s
+end)
+
+Section:NewSlider("FOV numsides", "SliderInfo", 50, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+ FOV_Circle.NumSides = s
+end)
+
+Section:NewToggle("Auto equip", "ToggleInfo", function(v)
+    if state then
+        _G.AutoEquip = v
+    spawn(function()
+        while wait(.05) do
+            if _G.AutoEquip == false then
+                local Knife = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool") or game:GetService("Players").LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+                game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(Knife)
+            end
+        end
+    end)
+    else
+        _G.AutoEquip = v
+    spawn(function()
+        while wait(.05) do
+            if _G.AutoEquip == true then
+                local Knife = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool") or game:GetService("Players").LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
+                game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(Knife)
+            end
+        end
+    end)
+    end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local Tab = Window:NewTab("Misc/ESP")
+
+local Section = Tab:NewSection("Misc")
+
+Section:NewColorPicker("Ambience", "changes the ambience of the map", Color3.fromRGB(255,255,255), function(s)
+    game.Lighting.Ambient = s 
+    -- Second argument is the default color
+end)
+
+Section:NewToggle("RTX shaders", "makes the game look beutiful", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Section:NewToggle("Fullbright", "basically just no fog", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Section:NewToggle("Radars", "You can see where everyone is with radars", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+Section:NewToggle("Chams", "You can see where everyone is with radars", function(state)
+    if state then
+        print("Toggle On")
+    else
+        print("Toggle Off")
+    end
+end)
+
+
+
+Section:NewToggle("outlines", "You can see where everyone is with radars", function(state)
+end)
+
+Section:NewColorPicker("outlines color", "you can see people through walls", Color3.fromRGB(255,255,255), function(chams)
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local Tab = Window:NewTab("Other")
+
+local Section = Tab:NewSection("insane guis/features")
+
+Section:NewButton("Fartlek shitter V1", "My first gui i ever made..", function()
+    print("Clicked")
+end)
+
+Section:NewButton("Fartlek shitter V2", "another gui i made that got leaked", function()
+    print("Clicked")
+end)
+
+Section:NewButton("Fartlek shitter v6", "op gui i made that got leaked :(", function()
+    print("Clicked")
+end)
+
+Section:NewButton("attablock shitter", "quite old script ngl", function()
+    print("Clicked")
+end)
+
+Section:NewButton("spritzsploit", "spritzsploit got leaked lol", function()
+    print("Clicked")
+end)
+
+
+
+Section:NewKeybind("GUI toggle", "what keybind toggles the ui", Enum.KeyCode.F, function()
+	Library:ToggleUI()
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+local Tab = Window:NewTab("Credits")
+
+local Section = Tab:NewSection("crazy credits ngl")
+
+Section:NewLabel("n2#6654")
+
+Section:NewLabel("chigger8#8288")
+
+Section:NewLabel("cyn#7903")
+
+Section:NewLabel("THANK YOU FOR BUYING THE SCRIPT NIGGA")
+
+local Tab = Window:NewTab("BUY NOW")
+
+
+
+
+
+
+
+
+--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY--MONKEY
+
+
+
+
+
+
+
+
+--thanks to n2,cyn for helping with this
+
+
+
+
+
+--sub to oxygen v1
